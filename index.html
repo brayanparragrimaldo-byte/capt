@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LANCEMOS | Talento Comercial</title>
     
-    <!-- Favicon Placeholder (Poner aquí tu logo) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 
-    <!-- Fuentes que emulan Codec Cold y BwModelica -->
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
@@ -31,35 +31,73 @@
             margin: 0;
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .codec-bold { font-family: var(--font-title); font-weight: 900; letter-spacing: -0.02em; }
         
+        /* --- ANIMACIONES ANTI-GRAVITY --- */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(0.5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(40, 102, 173, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(40, 102, 173, 0.5); }
+        }
+
+        .floating { animation: float 6s ease-in-out infinite; }
+        .fade-in { opacity: 0; animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* Delays escalonados para la carga inicial */
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .btn-primary {
             background: var(--primary-blue);
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 0 20px rgba(40, 102, 173, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(40, 102, 173, 0.6);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 0 50px rgba(40, 102, 173, 0.8);
+            letter-spacing: 2px;
         }
 
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
-            box-shadow: 0 0 60px rgba(32, 60, 130, 0.4);
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
+            animation: glow 4s infinite alternate;
         }
 
         .video-wrapper iframe {
@@ -70,37 +108,51 @@
 
         .hidden-section { display: none !important; }
         
+        .quiz-modal {
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 100px;
+        }
+
         .option-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 18px;
+            padding: 16px 20px;
             border-radius: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 0.95rem;
         }
 
         .option-card:hover {
             background: rgba(40, 102, 173, 0.2);
             border-color: var(--primary-blue);
+            transform: translateX(8px);
         }
 
         .option-card.selected {
             background: var(--primary-blue);
             border-color: #fff;
+            transform: translateX(12px) scale(1.02);
+            box-shadow: 0 0 20px rgba(40, 102, 173, 0.5);
         }
 
         input[type="text"], input[type="email"] {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
             padding: 16px;
             border-radius: 12px;
             width: 100%;
             outline: none;
-            font-size: 1rem;
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
 
-        input:focus { border-color: var(--primary-blue); }
+        input:focus { border-color: var(--primary-blue); background: rgba(40, 102, 173, 0.1); }
 
         .progress-container {
             height: 6px;
@@ -112,62 +164,61 @@
         .progress-fill {
             height: 100%;
             background: var(--primary-blue);
-            transition: width 0.4s ease;
+            transition: width 0.7s cubic-bezier(0.65, 0, 0.35, 1);
         }
     </style>
 </head>
 <body>
 
     <!-- Navegación -->
-    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-transparent">
-        <div class="codec-bold text-2xl tracking-tighter">LANCEMOS</div>
-        <div class="hidden md:block text-[10px] uppercase tracking-[0.3em] opacity-40">Talent Acquisition Center</div>
+    <nav class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center bg-transparent fade-in">
+        <div class="codec-bold text-xl md:text-2xl tracking-tighter">LANCEMOS</div>
+        <div class="text-[8px] md:text-[10px] uppercase tracking-[0.3em] opacity-40 text-right">Talento Comercial Élite</div>
     </nav>
 
     <!-- PÁGINA DE INICIO -->
-    <main id="landing-state" class="pt-32 pb-20 px-6 max-w-5xl mx-auto flex flex-col items-center text-center">
-        <h1 class="codec-bold text-5xl md:text-7xl mb-6 leading-tight">
+    <main id="landing-state" class="pt-28 md:pt-40 pb-20 px-6 max-w-5xl mx-auto flex flex-col items-center text-center">
+        <h1 class="codec-bold text-4xl md:text-8xl mb-6 leading-tight fade-in delay-1">
             Trabaja estratégicamente. <br><span class="text-[#2866ad]">Gana más.</span>
         </h1>
-        <p class="text-lg md:text-xl text-gray-400 max-w-2xl mb-12">
-            Únete a nuestra fuerza comercial élite. Leads calificados, herramientas de alta tecnología y libertad financiera.
+        <p class="text-base md:text-xl text-gray-400 max-w-2xl mb-12 md:mb-16 fade-in delay-2 px-4">
+            Accede a leads calificados y herramientas de alta tecnología para escalar tus ingresos de $700 a +$1,500 USD.
         </p>
         
-        <div class="w-full max-w-4xl mb-12">
+        <div class="w-full max-w-4xl mb-16 fade-in delay-3 floating">
             <div class="video-wrapper">
-                <!-- Video Genérico -->
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen></iframe>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 w-full max-w-4xl">
-            <div class="glass-card p-6">
-                <div class="text-[#2866ad] text-2xl font-bold mb-1">01</div>
-                <div class="font-bold text-sm uppercase mb-2">Validación</div>
-                <p class="text-xs text-gray-400">Filtro de mentalidad y aptitud comercial.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 w-full max-w-4xl fade-in delay-4">
+            <div class="glass-card p-8 floating" style="animation-delay: 0s;">
+                <div class="text-[#2866ad] text-3xl font-black mb-2">01</div>
+                <div class="font-bold text-xs uppercase mb-3 tracking-widest">Validación</div>
+                <p class="text-[11px] text-gray-400 leading-relaxed">Filtro de mentalidad y aptitud comercial.</p>
             </div>
-            <div class="glass-card p-6">
-                <div class="text-[#2866ad] text-2xl font-bold mb-1">02</div>
-                <div class="font-bold text-sm uppercase mb-2">Entrevista</div>
-                <p class="text-xs text-gray-400">Sesión estratégica de alineación.</p>
+            <div class="glass-card p-8 floating" style="animation-delay: 1.5s;">
+                <div class="text-[#2866ad] text-3xl font-black mb-2">02</div>
+                <div class="font-bold text-xs uppercase mb-3 tracking-widest">Entrevista</div>
+                <p class="text-[11px] text-gray-400 leading-relaxed">Sesión estratégica de alineación directa.</p>
             </div>
-            <div class="glass-card p-6">
-                <div class="text-[#2866ad] text-2xl font-bold mb-1">03</div>
-                <div class="font-bold text-sm uppercase mb-2">Arranque</div>
-                <p class="text-xs text-gray-400">Entrega de accesos y cierre inmediato.</p>
+            <div class="glass-card p-8 floating" style="animation-delay: 0.8s;">
+                <div class="text-[#2866ad] text-3xl font-black mb-2">03</div>
+                <div class="font-bold text-xs uppercase mb-3 tracking-widest">Arranque</div>
+                <p class="text-[11px] text-gray-400 leading-relaxed">Entrega de accesos y cierre inmediato.</p>
             </div>
         </div>
 
-        <button onclick="showQuestionnaire()" class="btn-primary codec-bold px-12 py-6 rounded-full text-xl uppercase tracking-widest">
+        <button onclick="showQuestionnaire()" class="btn-primary codec-bold w-full md:w-auto px-12 md:px-16 py-6 md:py-8 rounded-full text-lg md:text-xl uppercase tracking-[0.2em] fade-in delay-4">
             Iniciar Proceso de Selección
         </button>
     </main>
 
     <!-- CUESTIONARIO -->
-    <section id="questionnaire-state" class="hidden-section fixed inset-0 z-50 bg-[#3e4249] flex items-center justify-center p-6">
-        <div class="max-w-2xl w-full">
-            <div class="mb-10">
-                <div class="flex justify-between text-[10px] uppercase font-bold tracking-widest opacity-40 mb-3">
+    <section id="questionnaire-state" class="hidden-section fixed inset-0 z-50 bg-[#3e4249] flex items-start md:items-center justify-center p-4 md:p-10">
+        <div class="max-w-2xl w-full quiz-modal md:h-auto fade-in">
+            <div class="mb-10 pt-6">
+                <div class="flex justify-between text-[10px] uppercase font-bold tracking-[0.2em] opacity-40 mb-3">
                     <span id="step-counter">Pregunta 1 de 17</span>
                     <span id="step-percent">0%</span>
                 </div>
@@ -176,21 +227,21 @@
                 </div>
             </div>
 
-            <div id="quiz-container" class="min-h-[350px]">
+            <div id="quiz-container" class="min-h-[300px] md:min-h-[400px]">
                 <!-- Inyectado por JS -->
             </div>
 
-            <div class="mt-12 flex items-center justify-between">
-                <button onclick="prevStep()" id="prev-btn" class="opacity-30 hover:opacity-100 transition-all text-xs font-bold uppercase hidden">← Volver</button>
+            <div class="mt-8 flex items-center justify-between pb-12">
+                <button onclick="prevStep()" id="prev-btn" class="opacity-30 hover:opacity-100 transition-all text-xs font-bold uppercase tracking-widest hidden">← Volver</button>
                 <div class="flex-grow"></div>
-                <button onclick="nextStep()" id="next-btn" class="btn-primary px-10 py-4 rounded-xl codec-bold text-sm uppercase tracking-widest">Siguiente</button>
+                <button onclick="nextStep()" id="next-btn" class="btn-primary px-10 py-5 rounded-2xl codec-bold text-xs uppercase tracking-[0.2em]">Siguiente</button>
             </div>
         </div>
     </section>
 
     <!-- RESULTADOS -->
-    <section id="result-state" class="hidden-section fixed inset-0 z-[60] bg-[#263576] flex items-center justify-center p-6 text-center">
-        <div id="result-content" class="max-w-xl">
+    <section id="result-state" class="hidden-section fixed inset-0 z-[60] bg-[#263576] flex items-center justify-center p-8 text-center">
+        <div id="result-content" class="max-w-xl fade-in px-4">
             <!-- Inyectado por JS -->
         </div>
     </section>
@@ -200,20 +251,28 @@
             { id: 1, type: "intro", title: "¡Excelente! Empecemos con tus datos básicos", fields: ["nombre", "email", "whatsapp"] },
             { id: 2, type: "choice", title: "¿Cuál es tu género?", options: ["Hombre", "Mujer", "Prefiero no decirlo"], filter: false },
             { id: 3, type: "text", title: "¿En qué país te encuentras?", filter: false },
-            { id: 4, type: "choice", title: "¿Estás dispuesto a ingresos por desempeño ($700 - $1,500+ USD)?", options: ["Sí, totalmente", "Sí, pero me genera dudas", "No"], filter: true, rejectOn: "No" },
+            { id: 4, type: "choice", title: "¿Estás dispuesto(a) a participar en un proyecto con potencial de ganar entre $700 y $1,500+ USD?", options: ["Sí, totalmente", "Sí, pero me genera dudas", "No"], filter: true, rejectOn: "No" },
             { id: 5, type: "choice", title: "¿Cuántas horas al día puedes dedicarle?", options: ["Menos de 2 horas", "2 – 4 horas", "4 – 6 horas", "Más de 6 horas"], filter: true, rejectOn: "Menos de 2 horas" },
-            { id: 6, type: "choice", title: "¿Qué tan urgente es para ti generar ingresos?", options: ["Muy urgente", "Moderadamente urgente", "No es urgente"], filter: true, rejectOn: "No es urgente" },
-            { id: 7, type: "choice", title: "¿Cuál describe mejor tu situación actual?", options: ["Dependo de generar ingresos pronto", "Quiero ingresos adicionales", "Solo estoy explorando opciones"], filter: true, rejectOn: "Solo estoy explorando opciones" },
-            { id: 8, type: "choice", title: "¿Qué nivel de experiencia tienes en ventas?", options: ["Ninguna", "Básica", "Intermedia", "Avanzada"], filter: true, rejectOn: ["Ninguna", "Básica"] },
-            { id: 9, type: "choice", title: "¿Has vendido productos de +$500 USD?", options: ["Sí, de forma frecuente", "Sí, pero otros productos", "No"], filter: true, rejectOn: "No" },
-            { id: 10, type: "choice", title: "¿Has trabajado bajo comisión anteriormente?", options: ["Sí, y me gusta", "Sí, pero no me gustó", "No"], filter: true, rejectOn: "Sí, pero no me gustó" },
-            { id: 11, type: "choice", title: "Si un cliente te dice 'lo quiero pensar', tú:", options: ["Le das espacio y esperas", "Intentas cerrar manejando la objeción", "Validas cuál es la objeción real", "Envías información y seguimiento"], filter: true, rejectOn: ["Le das espacio y esperas", "Envías información y seguimiento"] },
+            { id: 6, type: "choice", title: "¿Qué tan urgente es generar ingresos?", options: ["Muy urgente (necesito ingresos ya)", "Moderadamente urgente", "No es urgente"], filter: true, rejectOn: "No es urgente" },
+            { id: 7, type: "choice", title: "¿Cuál describe mejor tu situación?", options: ["Dependo de generar ingresos pronto", "Quiero ingresos adicionales", "Solo estoy explorando"], filter: true, rejectOn: "Solo estoy explorando" },
+            { id: 8, type: "choice", title: "¿Qué nivel de experiencia tienes en ventas?", options: ["Ninguna", "Básica (ocasional)", "Intermedia (constante)", "Avanzada (viviendo de ventas)"], filter: true, rejectOn: ["Ninguna", "Básica (ocasional)"] },
+            { id: 9, type: "choice", title: "¿Has vendido productos de +$500 USD?", options: ["Sí, frecuente", "Sí, pero otros productos", "No"], filter: true, rejectOn: "No" },
+            { id: 10, type: "choice", title: "¿Has trabajado bajo comisión?", options: ["Sí, y me gusta", "Sí, pero no me gustó", "No"], filter: true, rejectOn: "Sí, pero no me gustó" },
+            { id: 11, type: "choice", title: "Si un cliente te dice “lo quiero pensar”, tú:", options: ["Le das espacio y esperas", "Intentas cerrar manejando la objeción", "Validas cuál es la objeción real", "Envías info y seguimiento"], filter: true, rejectOn: ["Le das espacio y esperas", "Envías info y seguimiento"] },
             { id: 12, type: "choice", title: "Si tienes 10 leads y ninguno compra, tú:", options: ["Esperas nuevos leads", "Analizas qué mejorar", "Piensas que el producto no sirve", "Insistes sin cambiar nada"], filter: true, rejectOn: ["Esperas nuevos leads", "Piensas que el producto no sirve", "Insistes sin cambiar nada"] },
-            { id: 13, type: "choice", title: "¿Qué consideras más importante para vender?", options: ["Capacidad de hablar", "Escuchar y entender al cliente", "Presionar para cerrar rápido", "Tener suerte"], filter: true, rejectOn: ["Presionar para cerrar rápido", "Tener suerte"] },
-            { id: 14, type: "choice", title: "Caso: Cliente dice: 'No tengo dinero ahora', tú respondes:", options: ["¿Revisamos opciones de pago?", "¿Qué prioridad tiene para ti?", "¿Qué tendría que pasar para decidir?", "Te envío info", "Avísame cuando tengas", "Esto no es para ti"], filter: true, rejectOn: ["Te envío info", "Avísame cuando tengas", "Esto no es para ti"] },
-            { id: 15, type: "choice", title: "¿Cuánto te gustaría generar al mes?", options: ["Menos de $500", "$500 – $1,000", "$1,000 – $2,000", "Más de $2,000"], filter: false },
-            { id: 16, type: "choice", title: "Si eres seleccionado, ¿cuándo podrías empezar?", options: ["Inmediatamente", "En menos de 7 días", "En más de 7 días"], filter: true, rejectOn: "En más de 7 días" },
-            { id: 17, type: "choice", title: "¿Qué tan comprometido estás con este proceso?", options: ["Totalmente, quiero resultados", "Interesado pero evaluando", "Solo curiosidad"], filter: true, rejectOn: "Solo curiosidad" }
+            { id: 13, type: "choice", title: "¿Qué consideras más importante para vender?", options: ["Capacidad de hablar", "Escuchar y entender", "Presionar para cerrar rápido", "Tener suerte"], filter: true, rejectOn: ["Presionar para cerrar rápido", "Tener suerte"] },
+            { id: 14, type: "choice", title: "Un cliente dice “No tengo dinero”, tú respondes:", options: [
+                "“¿Revisamos opciones de pago juntas?”", 
+                "“¿Qué prioridad tiene esto para ti?”", 
+                "“¿Qué tendría que pasar para decidir?”", 
+                "“Te envío info y me dices”", 
+                "“Cuando tengas dinero me escribes”", 
+                "“Entonces esto no es para ti”",
+                "“Lo dejamos para más adelante”"
+            ], filter: true, rejectOn: ["“Te envío info y me dices”", "“Cuando tengas dinero me escribes”", "“Entonces esto no es para ti”", "“Lo dejamos para más adelante”"] },
+            { id: 15, type: "choice", title: "¿Cuánto te gustaría generar al mes?", options: ["<$500 USD", "$500 – $1,000 USD", "$1,000 – $2,000 USD", ">$2,000 USD"], filter: false },
+            { id: 16, type: "choice", title: "¿Cuándo podrías empezar?", options: ["Inmediatamente", "En menos de 7 días", "Más de 7 días"], filter: true, rejectOn: "Más de 7 días" },
+            { id: 17, type: "choice", title: "¿Qué tan comprometido(a) estás?", options: ["Totalmente, quiero resultados", "Interesado(a) evaluando", "Solo curiosidad"], filter: true, rejectOn: "Solo curiosidad" }
         ];
 
         let currentStep = 0;
@@ -226,28 +285,34 @@
         const container = document.getElementById('quiz-container');
 
         function showQuestionnaire() {
-            landing.classList.add('hidden-section');
-            questionnaire.classList.remove('hidden-section');
-            renderQuestion();
+            landing.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            landing.style.opacity = "0";
+            landing.style.transform = "scale(0.95)";
+            
+            setTimeout(() => {
+                landing.classList.add('hidden-section');
+                questionnaire.classList.remove('hidden-section');
+                renderQuestion();
+            }, 500);
         }
 
         function renderQuestion() {
             const q = questions[currentStep];
             
-            // UI de progreso
             document.getElementById('step-counter').innerText = `Pregunta ${currentStep + 1} de ${questions.length}`;
             const perc = Math.round(((currentStep + 1) / questions.length) * 100);
             document.getElementById('step-percent').innerText = `${perc}%`;
             document.getElementById('progress-fill').style.width = `${perc}%`;
 
-            let html = `<h2 class="codec-bold text-2xl md:text-4xl mb-8 leading-tight">${q.title}</h2>`;
+            let html = `<div class="fade-in">
+                <h2 class="codec-bold text-2xl md:text-4xl mb-6 md:mb-10 leading-tight">${q.title}</h2>`;
 
             if (q.type === "intro") {
                 html += `
                     <div class="space-y-4">
-                        <input type="text" id="nombre" value="${userData.nombre || ''}" placeholder="Nombre completo" oninput="userData.nombre = this.value">
-                        <input type="email" id="email" value="${userData.email || ''}" placeholder="Correo electrónico" oninput="userData.email = this.value">
-                        <input type="text" id="whatsapp" value="${userData.whatsapp || ''}" placeholder="WhatsApp (Ej: +57 300...)" oninput="userData.whatsapp = this.value">
+                        <input type="text" id="nombre" value="${userData.nombre || ''}" placeholder="Nombre Completo" oninput="userData.nombre = this.value">
+                        <input type="email" id="email" value="${userData.email || ''}" placeholder="Correo Electrónico" oninput="userData.email = this.value">
+                        <input type="text" id="whatsapp" value="${userData.whatsapp || ''}" placeholder="WhatsApp (Ej: +57...)" oninput="userData.whatsapp = this.value">
                     </div>`;
             } else if (q.type === "choice") {
                 html += `<div class="grid grid-cols-1 gap-3">`;
@@ -257,12 +322,16 @@
                 });
                 html += `</div>`;
             } else if (q.type === "text") {
-                html += `<input type="text" id="q-${q.id}" value="${userData[q.id] || ''}" placeholder="Escribe tu respuesta..." oninput="userData[${q.id}] = this.value">`;
+                html += `<input type="text" id="q-${q.id}" value="${userData[q.id] || ''}" placeholder="Escribe tu respuesta aquí..." oninput="userData[${q.id}] = this.value">`;
             }
 
+            html += `</div>`;
             container.innerHTML = html;
+            
             document.getElementById('prev-btn').classList.toggle('hidden', currentStep === 0);
-            document.getElementById('next-btn').innerText = currentStep === questions.length - 1 ? "FINALIZAR" : "SIGUIENTE";
+            document.getElementById('next-btn').innerText = currentStep === questions.length - 1 ? "FINALIZAR PROCESO" : "SIGUIENTE";
+            
+            document.querySelector('.quiz-modal').scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function selectOption(id, val) {
@@ -272,13 +341,14 @@
                 const rejected = Array.isArray(q.rejectOn) ? q.rejectOn.includes(val) : q.rejectOn === val;
                 if (rejected) isQualified = false;
             }
-            renderQuestion();
+            // Pequeña pausa visual antes de pasar
+            setTimeout(() => renderQuestion(), 200);
         }
 
         function nextStep() {
             const q = questions[currentStep];
-            if (q.type === "intro" && (!userData.nombre || !userData.email || !userData.whatsapp)) return alert("Completa tus datos.");
-            if (q.type !== "intro" && !userData[q.id]) return alert("Selecciona una opción.");
+            if (q.type === "intro" && (!userData.nombre || !userData.email || !userData.whatsapp)) return;
+            if (q.type !== "intro" && !userData[q.id]) return;
 
             if (currentStep < questions.length - 1) {
                 currentStep++;
@@ -302,18 +372,16 @@
             const res = document.getElementById('result-content');
             if (isQualified) {
                 res.innerHTML = `
-                    <h2 class="codec-bold text-5xl mb-6">¡PERFIL APROBADO!</h2>
-                    <p class="text-lg opacity-70 mb-10">Tus respuestas indican que tienes el perfil comercial agresivo que buscamos. Agenda tu entrevista ahora:</p>
-                    <a href="TU_LINK_CALENDLY" target="_blank" class="btn-primary codec-bold px-12 py-6 rounded-full text-lg uppercase inline-block">Agendar Entrevista</a>
+                    <h2 class="codec-bold text-5xl md:text-7xl mb-8">¡PERFIL APROBADO!</h2>
+                    <p class="text-lg md:text-xl opacity-70 mb-12">Tienes el ADN comercial que buscamos en LANCEMOS. El siguiente paso es agendar tu entrevista estratégica:</p>
+                    <a href="TU_LINK_CALENDLY" target="_blank" class="btn-primary codec-bold w-full md:w-auto px-12 py-6 rounded-full text-lg md:text-xl uppercase tracking-widest inline-block">Agendar Ahora</a>
                 `;
             } else {
                 res.innerHTML = `
-                    <h2 class="codec-bold text-5xl mb-6">Gracias por participar</h2>
-                    <p class="text-lg opacity-70 mb-6">En este momento buscamos un perfil con una disponibilidad o experiencia distinta. Guardaremos tu contacto para futuras vacantes.</p>
+                    <h2 class="codec-bold text-5xl md:text-7xl mb-8 text-gray-500">Gracias</h2>
+                    <p class="text-lg md:text-xl opacity-70 mb-8">Hemos recibido tus respuestas. Guardaremos tu perfil para futuras vacantes que se ajusten a tu disponibilidad actual.</p>
                 `;
             }
-            // Aquí puedes enviar userData a Google Sheets vía Webhook
-            console.log("Data para Sheets:", userData);
         }
     </script>
 </body>
